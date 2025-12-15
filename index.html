@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人博客</title>
+    <style>
+        /* 全局样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        /* 全局变量 */
+        :root {
+            --primary-color: #c0e8f8;
+            --accent-color: #09f;
+            --light-gray: #f5f7fa;
+            --gray: #09f;
+            --border-color: #09f;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            color: var(--primary-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        /* 简历容器 */
+        .resume-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        /* 头部区域 */
+        .resume-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 40px 50px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .name-title h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .name-title p {
+            font-size: 18px;
+            color: #555;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .contact-info a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .contact-info a:hover {
+            color: var(--accent-color);
+            transform: translateX(3px);
+        }
+
+        .contact-info i {
+            font-size: 18px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* 主体内容 */
+        .resume-body {
+            padding: 40px 50px;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+        }
+
+        /* 侧边栏 */
+        .sidebar {
+            border-right: 1px solid var(--border-color);
+            padding-right: 30px;
+        }
+
+        /* 主内容区 */
+        .main-content {
+            padding-left: 10px;
+        }
+
+        /* 通用模块样式 */
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title i {
+            color: var(--accent-color);
+        }
+
+
+        /* 兴趣爱好 */
+        .hobbies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .hobby-tag {
+            background-color: var(--light-gray);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            color:#555;
+            transition: var(--transition);
+        }
+
+        .hobby-tag:hover {
+            background-color: var(--accent-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* 经历模块 */
+        .experience-item {
+            margin-bottom: 25px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .experience-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+        }
+
+        .experience-item::after {
+            content: '';
+            position: absolute;
+            left: 3px;
+            top: 13px;
+            bottom: -15px;
+            width: 1px;
+            background-color: var(--border-color);
+        }
+
+        .experience-item:last-child::after {
+            display: none;
+        }
+
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .experience-position {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .experience-time {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .experience-company {
+            color: var(--accent-color);
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .experience-desc {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        .experience-desc ul {
+            list-style: disc;
+            margin-left: 20px;
+            margin-top: 5px;
+        }
+
+        .experience-desc li {
+            margin-bottom: 5px;
+        }
+
+        /* 教育背景 */
+        .education-item {
+            margin-bottom: 20px;
+        }
+
+        .education-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .education-school {
+            font-weight: 600;
+        }
+
+        .education-time {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .education-major {
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
+
+        .education-desc {
+            font-size: 14px;
+            color: #555;
+        }
+
+       
+    </style>
+    <!-- Font Awesome 图标库 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div class="resume-container">
+        <!-- 简历头部 -->
+        <header class="resume-header">
+            <div class="name-title">
+                <h1>张召丽</h1>
+                <div class="education-major">主要以工科有关的各种技能及方法展开分享</div>
+            </div>
+            <div class="contact-info">
+                <a><i class="联系方式"></i>联系方式：11100111000</a>
+                <a><i class="邮箱"></i>邮箱： zhang@qq.com</a>
+                <a><i class="性别"></i>性别：女</a>
+                <a><i class="籍贯"></i>籍贯：贵州安顺</a>
+            </div>
+        </header>
+
+        <!-- 简历主体 -->
+        <div class="resume-body">
+            <!-- 侧边栏 -->
+            <aside class="sidebar">
+
+                <!-- 技能推荐 -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fa fa-language"></i> 技能推荐</h2>
+                    <div class="hobbies"><span class="hobby-tag">Python自动化办公实用技巧</span></div>
+                    <div class="hobbies"><span class="hobby-tag">制作简单网页</span></div>
+                    <div class="hobbies"><span class="hobby-tag">短视频脚本写作</span></div>
+                    <div class="hobbies"><span class="hobby-tag">剪映基础剪辑</span></div>
+                    <div class="hobbies"><span class="hobby-tag">GIF制作</span></div>
+                    <div class="hobbies"><span class="hobby-tag">自媒体配图</span></div> 
+                </div>
+
+                <!-- 兴趣爱好 -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fa fa-heart"></i> 兴趣爱好</h2>
+                    <div class="hobbies">
+                        <span class="hobby-tag">3D建模与打印</span>
+                        <span class="hobby-tag">航模/无人机组装调式</span>
+                        <span class="hobby-tag">趣味电子DIY</span>
+                        <span class="hobby-tag">数据可视化</span>
+                        <span class="hobby-tag">批量整理文件</span>
+                        <span class="hobby-tag">制作简易装置</span>
+                    </div>
+                </div>
+
+                <!-- 推荐书籍 -->
+                <div class="section" >
+                    <h2 class="section-title"><i class="fa fa-heart"></i> 推荐书籍</h2>
+                    <div class="hobbies" >
+                        <span class="hobby-tag">《算法导论》</span>
+                        <span class="hobby-tag">《黑客与画家》</span>
+                        <span class="hobby-tag">《人月神话》</span>
+                        <span class="hobby-tag">《架构整洁之道》</span>
+                        <span class="hobby-tag">《量子计算导论》</span>
+                        <span class="hobby-tag">《深度学习》</span>
+                    </div>
+                </div>
+
+                <!-- 自我评价 -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fa fa-user"></i> 自我评价</h2>
+                    <ul class="hobbies">
+                        <li class="hobby-tag">本人性格沉稳踏实，做事认真负责，注重细节与效率，乐于在实践中学习和积累经验，能较好地融入团队协作。</li>
+                        <li class="hobby-tag">我日常积极乐观，适应能力强，面对问题善于思考解决办法，有较强的责任心和执行力，始终保持谦逊好学的态度。</li>
+                        <li class="hobby-tag">在生活中性格随和友善，沟通能力良好，对待任务严谨细致，具备较强的自我驱动力，愿意主动接受新挑战并不断完善自我。</li>
+                    </ul>
+                </div>
+            </aside>
+
+            <!-- 主内容区 -->
+            <main class="main-content">
+                <!-- 教育背景 -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fa fa-graduation-cap"></i> 教育背景</h2>
+                    <div class="education-item">
+                        <div class="education-header">
+                            <span class="education-school">贵州中医药大学时珍学院</span>
+                        </div>
+                        <div class="education-major">数据科学与大数据技术 | 本科</div>
+                        <div class="education-desc">
+                            <p>主修课程：数据结构、MySQL、Python、Java、Web前端开发等</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 数智技术分享汇 -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fa fa-briefcase"></i> 数智技术分享汇</h2>
+                    <div class="experience-item">
+                        <div class="experience-header">
+                            <span class="experience-company">入门扫盲与知识科普</span>
+                        </div>
+                        <div class="experience-position">入门概念科普</div>
+                        <div class="experience-desc">
+                            <p>方向：拆解工科领域的基础概念，用通俗语言解释技术原理，消除新手认知门槛。</p>
+                            <ul>
+                                <li>《5分钟搞懂大数据和云计算的区别》</li>
+                                <li>《一文读懂：为什么说算法是程序的“灵魂”》</li>
+                                <li>《普通人也能听懂的机器学习入门科普》</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="experience-item">
+                        <div class="experience-header">
+                            <span class="experience-company">工具使用与实操教程</span>
+                        </div>
+                        <div class="experience-position">工具实操教程</div>
+                        <div class="experience-desc">
+                            <p>方向：分享通用工具的安装、配置和基础用法，聚焦免费开源工具，提供可复刻的步骤。</p>
+                            <ul>
+                                <li>《手把手教你安装Python+Jupyter Notebook，新手零失误》</li>
+                                <li>《Excel也能做简单数据分析？3个高频函数教程》</li>
+                                <li>《用Navicat快速管理数据库，小白也能上手》</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="experience-item">
+                        <div class="experience-header">
+                            <span class="experience-company">学习路径与资源整理</span>
+                        </div>
+                        <div class="experience-position">学习路径资源</div>
+                        <div class="experience-desc">
+                            <p>方向：梳理不同阶段的学习规划，汇总免费学习资源，帮助学习者少走弯路。</p>
+                            <ul>
+                                <li>《零基础学大数据的6个月学习路线，附免费课程清单》</li>
+                                <li>《计算机专业必看的10本经典书籍，从入门到进阶》</li>
+                                <li>《5个宝藏级免费编程刷题网站，提升代码能力》</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="experience-item">
+                        <div class="experience-header">
+                            <span class="experience-company">问题解决与避坑指南</span>
+                        </div>
+                        <div class="experience-position">问题排错指南</div>
+                        <div class="experience-desc">
+                            <p>方向：总结学习或实操中常见的问题及解决方案，提供通用排错思路。</p>
+                            <ul>
+                                <li>《Python安装第三方库失败？这3个方法90%能解决》</li>
+                                <li>《大数据处理中数据缺失的4种填充方法》</li>
+                                <li>《新手写代码常犯的5个错误，看完少踩坑》</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="experience-item">
+                        <div class="experience-header">
+                            <span class="experience-company">行业趋势与思维拓展</span>
+                        </div>
+                        <div class="experience-position">行业趋势思维</div>
+                        <div class="experience-desc">
+                            <p>方向：分析技术发展趋势，分享工科思维在生活中的应用，不涉及个人从业经历。</p>
+                            <ul>
+                                <li>《大数据在电商领域的3个典型应用场景》</li>
+                                <li>《从“算法推荐”看工科思维：如何用逻辑解决生活问题》</li>
+                                <li>《未来5年计算机领域的3个热门发展方向》</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>浅蓝色动态背景</title>
+    <style>
+        /* 全局重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 动态背景画布 - 浅蓝色基础 */
+        #blogBgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background: #e6f7ff; /* 清新浅蓝色底 */
+        }
+    </style>
+</head>
+<body>
+    <!-- 动态背景画布 -->
+    <canvas id="blogBgCanvas"></canvas>
+
+    <script>
+        // 获取画布和上下文
+        const canvas = document.getElementById('blogBgCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // 适配窗口大小
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // 粒子类 - 适配浅蓝色背景的动态效果
+        class BlogParticle {
+            constructor() {
+                // 随机位置
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                // 适中的移动速度（动态感明显）
+                this.vx = (Math.random() - 0.5) * 0.6;
+                this.vy = (Math.random() - 0.5) * 0.6;
+                // 粒子尺寸
+                this.size = Math.random() * 3 + 1;
+                // 透明度
+                this.alpha = Math.random() * 0.5 + 0.2;
+                // 浅蓝紫色系，适配浅蓝色背景且视觉突出
+                this.color = `rgba(96, 165, 250, ${this.alpha})`;
+                // 呼吸效果参数
+                this.baseAlpha = this.alpha;
+                this.alphaSpeed = Math.random() * 0.005 + 0.002;
+            }
+
+            // 更新粒子位置+呼吸效果
+            update() {
+                // 边界反弹
+                if (this.x < 0 || this.x > canvas.width) this.vx = -this.vx;
+                if (this.y < 0 || this.y > canvas.height) this.vy = -this.vy;
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // 呼吸效果
+                this.alpha += this.alphaSpeed;
+                if (this.alpha > this.baseAlpha + 0.2 || this.alpha < this.baseAlpha - 0.2) {
+                    this.alphaSpeed = -this.alphaSpeed;
+                }
+                this.color = `rgba(96, 165, 250, ${this.alpha})`;
+            }
+
+            // 绘制粒子
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+        }
+
+        // 初始化粒子
+        let particles = [];
+        const particleCount = Math.floor((canvas.width * canvas.height) / 15000);
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new BlogParticle());
+            }
+        }
+
+        // 绘制粒子连线
+        function drawParticleLines() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 150) {
+                        const lineAlpha = (1 - distance / 150) * particles[i].alpha * 0.5;
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(96, 165, 250, ${lineAlpha})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        // 动画循环
+        function animate() {
+            // 浅蓝色拖影背景
+            ctx.fillStyle = 'rgba(230, 247, 255, 0.12)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 更新绘制粒子
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+
+            // 绘制连线
+            drawParticleLines();
+
+            requestAnimationFrame(animate);
+        }
+
+        // 启动动画
+        initParticles();
+        animate();
+
+        // 窗口大小变化重新初始化
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            initParticles();
+        });
+
+        // 鼠标交互效果
+        let mouseX = canvas.width / 2;
+        let mouseY = canvas.height / 2;
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+
+            particles.forEach(particle => {
+                const dx = mouseX - particle.x;
+                const dy = mouseY - particle.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < 200) {
+                    particle.x += dx * 0.005;
+                    particle.y += dy * 0.005;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+</body>
+</html>
